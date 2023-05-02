@@ -6,7 +6,8 @@
   /* background: linear-gradient(0deg, rgba(34, 57, 195, 1) 0%, rgba(131, 48, 99, 1) 94%); */
 }
 
-.box {
+.container {
+  border: 1px red solid;
   display: flex;
   flex-direction: column;
   justify-content: center;
