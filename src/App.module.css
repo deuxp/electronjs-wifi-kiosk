@@ -7,10 +7,15 @@
 }
 
 .container {
-  border: 1px red solid;
+  color: #fff;
+  /* border: 1px red solid; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+.title {
+  padding: 1rem;
 }
