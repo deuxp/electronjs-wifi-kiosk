@@ -1,7 +1,9 @@
-const { session, net, app, BrowserWindow, ipcMain } = require("electron");
+const { getWifi } = require("../src/services/wifi");
+const { session, app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
-const axios = require("axios");
+// const axios = require("axios");
+// const fs = require("fs");
 
 if (require("electron-squirrel-startup")) {
   app.quit();
@@ -33,12 +35,7 @@ function createWindow() {
   }
 }
 
-app
-  .whenReady()
-  .then(createWindow)
-  .then(() => {
-    sesh = session.defaultSession;
-  });
+app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -78,3 +75,11 @@ app.on("web-contents-created", (event, contents) => {
 });
 
 /* ------------------------------------ v ----------------------------------- */
+
+ipcMain.on("msg", (_, msg) => {
+  console.log(msg);
+});
+
+ipcMain.handle("networks", async () => {
+  return await getWifi();
+});
