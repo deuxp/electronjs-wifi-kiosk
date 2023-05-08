@@ -1,14 +1,17 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 const ipcBridge = {
-  hi: bool => {
-    return new Promise((resolve, reject) => {
-      if (bool) return resolve(true);
-      reject(false);
-    });
+  send: msg => {
+    ipcRenderer.send("msg", msg);
+  },
+  getData: async channel => {
+    const validChannel = ["networks"];
+    if (!validChannel.includes(channel)) return;
+
+    return await ipcRenderer.invoke(channel);
   },
 };
 
 process.once("loaded", () => {
-  contextBridge.exposeInMainWorld("bridge", ipcBridge);
+  contextBridge.exposeInMainWorld("api", ipcBridge);
 });
