@@ -5,17 +5,3 @@
   /* background: rgb(34, 57, 195); */
   /* background: linear-gradient(0deg, rgba(34, 57, 195, 1) 0%, rgba(131, 48, 99, 1) 94%); */
 }
-
-.container {
-  color: #fff;
-  /* border: 1px red solid; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.title {
-  padding: 1rem;
-}

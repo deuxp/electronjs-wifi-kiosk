@@ -1,0 +1,30 @@
+.container {
+  color: #fff;
+  /* border: 1px red solid; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  color: #0ac326;
+  padding: 1rem;
+  animation: title 500ms linear infinte;
+}
+
+@keyframes title {
+  0% {
+    color: #fff;
+  }
+
+  50% {
+    color: #0ac326;
+  }
+
+  100% {
+    color: #fff;
+  }
+}

@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
-import style from "./App.module.css";
-import Button from "./components/Button/Button";
+import { useState, useEffect } from "react";
 import useWifiConnect from "./hooks/useWifiConnect";
+import style from "./App.module.css";
+import WifiConnect from "./components/WifiConnect/WifiConnect";
+import Welcome from "./components/Welcome/Welcome";
 
 function App() {
+  const [isConnected, setIsConnected] = useState(navigator.onLine);
   const {
     handleClick,
     handleChange,
@@ -15,29 +17,43 @@ function App() {
     networkNames,
   } = useWifiConnect();
 
-  useEffect(() => {
-    getNetworks();
-  }, []);
+  // useEffect(() => {
+  //   if (navigator.onLine === false) {
+  //     getNetworks();
+  //   }
+  // }, []);
+
+  function onWifi() {
+    const isOnline = navigator.onLine;
+    if (isConnected === isOnline) return;
+    if (navigator.onLine === false) getNetworks();
+    setIsConnected(isOnline);
+  }
+
+  window.addEventListener("online", () => {
+    console.log("online: ", navigator.onLine);
+    onWifi();
+  });
+  window.addEventListener("offline", () => {
+    console.log("online: ", navigator.onLine);
+    onWifi();
+  });
 
   return (
     <div className={style.main}>
-      <div className={style.container}>
-        <div className={style.title}>Wifi Networks</div>
-        <select
-          defaultValue={netSelect}
-          // value={netSelect}
-          onChange={handleChange}
-        >
-          {networkNames(networks)}
-        </select>
-        <input
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-          type="password"
-          placeholder="password"
+      {isConnected && <Welcome />}
+      {!isConnected && (
+        <WifiConnect
+          handleClick={handleClick}
+          handleChange={handleChange}
+          netSelect={netSelect}
+          password={password}
+          setPassword={setPassword}
+          networks={networks}
+          networkNames={networkNames}
+          getNetworks={getNetworks}
         />
-        <Button handleClick={handleClick}>Click</Button>
-      </div>
+      )}
     </div>
   );
 }

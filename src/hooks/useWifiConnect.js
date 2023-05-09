@@ -42,9 +42,6 @@ export default function useWifiConnect() {
     // log if it worked
   };
 
-  window.addEventListener("online", console.log("online: ", navigator.onLine));
-  window.addEventListener("offline", console.log("online: ", navigator.onLine));
-
   return {
     handleClick,
     handleChange,
