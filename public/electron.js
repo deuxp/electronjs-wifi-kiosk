@@ -1,7 +1,8 @@
-const { getWifi } = require("../src/services/wifi");
-const { session, app, BrowserWindow, ipcMain } = require("electron");
+const { getNetworks, connectWifi } = require("../src/services/wifi");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
+const { stat } = require("fs");
 // const axios = require("axios");
 // const fs = require("fs");
 
@@ -80,6 +81,23 @@ ipcMain.on("msg", (_, msg) => {
   console.log(msg);
 });
 
-ipcMain.handle("networks", async () => {
-  return await getWifi();
+ipcMain.handle("get/networks", async () => {
+  try {
+    return await getNetworks();
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+ipcMain.handle("connect/wifi", async (event, { ssid, password }) => {
+  try {
+    return await connectWifi(ssid, password);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+ipcMain.on("online/status", (event, status) => {
+  if (status) alert("on line🤠");
+  if (!status) alert("off line👢");
 });

@@ -1,14 +1,14 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 const ipcBridge = {
-  send: msg => {
-    ipcRenderer.send("msg", msg);
+  send: status => {
+    ipcRenderer.send("online/status", status);
   },
-  getData: async channel => {
-    const validChannel = ["networks"];
+  mainThread: async (channel, options) => {
+    const validChannel = ["get/networks", "connect/wifi"];
     if (!validChannel.includes(channel)) return;
 
-    return await ipcRenderer.invoke(channel);
+    return await ipcRenderer.invoke(channel, options);
   },
 };
 

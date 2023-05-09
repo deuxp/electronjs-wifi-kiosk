@@ -8,21 +8,25 @@ function App() {
   const [netSelect, setNetSelect] = useState("");
 
   async function getNetworks() {
-    const res = await window.api.getData("networks");
+    const res = await window.api.mainThread("get/networks");
     console.log(res);
     setNetworks(res);
   }
 
   const networkNames = netArr => {
-    const networks = netArr.map((net, idx) => {
-      return (
-        <option key={idx + 1} value={net.ssid}>
-          {net.ssid}
-        </option>
-      );
-    });
-    const defaultOption = <option key={0}> -- select a network -- </option>;
-    return [defaultOption, ...networks];
+    let networks;
+    if (netArr) {
+      networks = netArr.map((net, idx) => {
+        return (
+          <option key={idx + 1} value={net.ssid}>
+            {net.ssid}
+          </option>
+        );
+      });
+      const defaultOption = <option key={0}> -- select a network -- </option>;
+      return [defaultOption, ...networks];
+    }
+    return [];
   };
 
   const handleChange = e => {
@@ -30,8 +34,15 @@ function App() {
     setNetSelect(select);
   };
 
-  const handleClick = () => {
-    console.log({ network: netSelect, password });
+  const handleClick = async () => {
+    // invoke login
+    const res = await window.api.mainThread("connect/wifi", {
+      ssid: netSelect,
+      password,
+    });
+    console.log({ netSelect, password });
+    // undo the loading symbol
+    // log if it worked
   };
 
   useEffect(() => {
