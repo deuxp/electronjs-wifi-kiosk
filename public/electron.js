@@ -2,7 +2,6 @@ const { getNetworks, connectWifi } = require("../src/services/wifi");
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
-const { stat } = require("fs");
 // const axios = require("axios");
 // const fs = require("fs");
 
@@ -13,8 +12,8 @@ if (require("electron-squirrel-startup")) {
 let win;
 function createWindow() {
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 300,
+    height: 300,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -77,10 +76,6 @@ app.on("web-contents-created", (event, contents) => {
 
 /* ------------------------------------ v ----------------------------------- */
 
-ipcMain.on("msg", (_, msg) => {
-  console.log(msg);
-});
-
 ipcMain.handle("get/networks", async () => {
   try {
     return await getNetworks();
@@ -91,13 +86,17 @@ ipcMain.handle("get/networks", async () => {
 
 ipcMain.handle("connect/wifi", async (event, { ssid, password }) => {
   try {
-    return await connectWifi(ssid, password);
+    await connectWifi(ssid, password);
+    return { message: "on-line: OK" };
   } catch (error) {
     console.log(error);
+    return { message: "error: connection problems" };
   }
 });
 
-ipcMain.on("online/status", (event, status) => {
-  if (status) alert("on line🤠");
-  if (!status) alert("off line👢");
-});
+// ipcMain.handle("online-status-change", (event, status) => {
+//   console.log({ status });
+//   if (status) alert("on line🤠");
+//   if (!status) alert("off line👢");
+//   // replace with state change somehow ??
+// });
