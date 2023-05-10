@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 export default function useWifiConnect() {
   const [password, setPassword] = useState("");
   const [networks, setNetworks] = useState([]);
@@ -6,14 +7,22 @@ export default function useWifiConnect() {
 
   async function getNetworks() {
     const res = await window.api.mainThread("get/networks");
-    console.log(res);
-    setNetworks(res);
+    console.log(res.message);
+    if (res.data) {
+      setNetworks(res.data);
+    } else {
+      console.log("error: get/networks handler: " + res.message);
+    }
   }
 
+  /**
+   * @param {:Array} netArr array of wifi objects
+   * @returns array of ssid names & pushes blank selector as first item
+   */
   const networkNames = netArr => {
-    let networks;
+    let list;
     if (netArr) {
-      networks = netArr.map((net, idx) => {
+      list = netArr.map((net, idx) => {
         return (
           <option key={idx + 1} value={net.ssid}>
             {net.ssid}
@@ -21,7 +30,7 @@ export default function useWifiConnect() {
         );
       });
       const defaultOption = <option key={0}> -- select a network -- </option>;
-      return [defaultOption, ...networks];
+      return [defaultOption, ...list];
     }
     return [];
   };
@@ -31,19 +40,17 @@ export default function useWifiConnect() {
     setNetSelect(select);
   };
 
-  const handleClick = async () => {
+  const submit = async () => {
     // invoke login
     const res = await window.api.mainThread("connect/wifi", {
       ssid: netSelect,
       password,
     });
-    console.log(res.message);
-    // undo the loading symbol
-    // log if it worked
+    return res;
   };
 
   return {
-    handleClick,
+    submit,
     handleChange,
     netSelect,
     getNetworks,
