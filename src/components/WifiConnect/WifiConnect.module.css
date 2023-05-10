@@ -74,19 +74,10 @@
   font-size: 2rem;
   color: #0ac326;
   padding: 1rem;
-  animation: title 500ms linear infinte;
 }
 
-@keyframes title {
-  0% {
-    color: #fff;
-  }
-
-  50% {
-    color: #0ac326;
-  }
-
-  100% {
-    color: #fff;
-  }
+.message {
+  position: absolute;
+  bottom: 2rem;
+  color: #ff0000;
 }

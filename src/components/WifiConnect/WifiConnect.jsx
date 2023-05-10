@@ -9,17 +9,15 @@ function WifiConnect({
   setPassword,
   networks,
   networkNames,
-  getNetworks,
+  message,
 }) {
-  useEffect(() => {
-    getNetworks();
-  }, []);
+  // useEffect(() => {
+  //   getNetworks();
+  // }, []);
 
   function handleReload() {
     window.api.reload();
   }
-
-  console.log(style);
 
   return (
     <div className={style.container}>
@@ -64,6 +62,7 @@ function WifiConnect({
           </svg>
         </button>
       </div>
+      <div className={style.message}>{message}</div>
     </div>
   );
 }

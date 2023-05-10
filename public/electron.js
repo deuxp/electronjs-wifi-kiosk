@@ -1,5 +1,5 @@
 const { getNetworks, connectWifi } = require("../src/services/wifi");
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, net } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 // const axios = require("axios");
@@ -12,8 +12,8 @@ if (require("electron-squirrel-startup")) {
 let win;
 function createWindow() {
   win = new BrowserWindow({
-    width: 300,
-    height: 300,
+    width: 500,
+    height: 500,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -80,26 +80,11 @@ app.on("web-contents-created", (event, contents) => {
  * all handles return obj: { data: Object, message: String }
  */
 ipcMain.handle("get/networks", async () => {
-  try {
-    const networks = await getNetworks();
-    return { data: networks, message: "get/networks: OK" };
-  } catch (error) {
-    console.log(error);
-    return {
-      data: null,
-      message: "could not get networks, check internet connection",
-    };
-  }
+  return await getNetworks();
 });
 
 ipcMain.handle("connect/wifi", async (event, { ssid, password }) => {
-  try {
-    await connectWifi(ssid, password);
-    return { data: true, message: "on-line: OK" };
-  } catch (error) {
-    console.log(error);
-    return { data: false, message: "error: connection problems" };
-  }
+  return await connectWifi(ssid, password);
 });
 
 //simple page reload
