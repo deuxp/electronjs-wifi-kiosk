@@ -76,27 +76,33 @@ app.on("web-contents-created", (event, contents) => {
 
 /* ------------------------------------ v ----------------------------------- */
 
+/**
+ * all handles return obj: { data: Object, message: String }
+ */
 ipcMain.handle("get/networks", async () => {
   try {
-    return await getNetworks();
+    const networks = await getNetworks();
+    return { data: networks, message: "get/networks: OK" };
   } catch (error) {
     console.log(error);
+    return {
+      data: null,
+      message: "could not get networks, check internet connection",
+    };
   }
 });
 
 ipcMain.handle("connect/wifi", async (event, { ssid, password }) => {
   try {
     await connectWifi(ssid, password);
-    return { message: "on-line: OK" };
+    return { data: true, message: "on-line: OK" };
   } catch (error) {
     console.log(error);
-    return { message: "error: connection problems" };
+    return { data: false, message: "error: connection problems" };
   }
 });
 
-// ipcMain.handle("online-status-change", (event, status) => {
-//   console.log({ status });
-//   if (status) alert("on line🤠");
-//   if (!status) alert("off line👢");
-//   // replace with state change somehow ??
-// });
+//simple page reload
+ipcMain.handle("reload", () => {
+  win.reload();
+});
