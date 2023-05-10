@@ -80,7 +80,11 @@ app.on("web-contents-created", (event, contents) => {
  * all handles return obj: { data: Object, message: String }
  */
 ipcMain.handle("get/networks", async () => {
-  return await getNetworks();
+  try {
+    return await getNetworks();
+  } catch (error) {
+    return error;
+  }
 });
 
 ipcMain.handle("connect/wifi", async (event, { ssid, password }) => {

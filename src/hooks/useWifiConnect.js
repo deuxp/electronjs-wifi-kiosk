@@ -4,31 +4,23 @@ export default function useWifiConnect() {
   const [password, setPassword] = useState("");
   const [networks, setNetworks] = useState([]);
   const [netSelect, setNetSelect] = useState("");
+  const [message, setMessage] = useState("");
 
   async function getData() {
     const res = await window.api.mainThread("get/networks");
-    console.log(res);
+    // console.log(res);
     if (res.data) {
+      console.log("set the networks");
       setNetworks(res.data);
+    }
+    if (!res.data) {
+      setMessage(res.message);
     }
     return res;
   }
   useEffect(() => {
-    // getNetworks();
     getData();
   }, []);
-
-  async function getNetworks() {
-    // const res = await window.api.mainThread("get/networks");
-    // console.log(res.message);
-    // if (res.data) {
-    //   setNetworks(res.data);
-    //   return true;
-    // } else {
-    //   console.log("error: get/networks handler: " + res.message);
-    //   return false;
-    // }
-  }
 
   /**
    * @param {:Array} netArr array of wifi objects
@@ -68,11 +60,12 @@ export default function useWifiConnect() {
     submit,
     handleChange,
     netSelect,
-    getNetworks,
     password,
     setPassword,
     networks,
     getData,
     networkNames,
+    message,
+    setMessage,
   };
 }

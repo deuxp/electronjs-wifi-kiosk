@@ -1,19 +1,59 @@
-import { useEffect } from "react";
+// import useWifiConnect from "../hooks/useWifiConnect";
+import useWifiConnect from "../../hooks/useWifiConnect";
+import { useState } from "react";
 import style from "./WifiConnect.module.css";
 
-function WifiConnect({
-  handleClick,
-  handleChange,
-  netSelect,
-  password,
-  setPassword,
-  networks,
-  networkNames,
-  message,
-}) {
-  // useEffect(() => {
-  //   getNetworks();
-  // }, []);
+function WifiConnect({ setIsLoading, isConnected, setIsConnected }) {
+  const {
+    submit,
+    handleChange,
+    netSelect,
+    getData,
+    password,
+    setPassword,
+    networks,
+    networkNames,
+    message,
+    setMessage,
+  } = useWifiConnect();
+
+  // const debounceGetNetworks = async () => {
+  //   setIsLoading(true);
+  //   console.log("...loading");
+  //   const res = await getData();
+  //   if (!res.data || res.data.length === 0) {
+  //     setMessage(res.message);
+  //   }
+  //   setIsLoading(false);
+  // };
+
+  // function onWifi(isOnline) {
+  //   if (isConnected === isOnline) return;
+
+  //   if (isConnected === true) {
+  //     setIsLoading(false);
+  //   }
+  //   setIsConnected(isOnline);
+  //   if (isOnline === false) {
+  //     debounceGetNetworks();
+  //   }
+  // }
+
+  // window.addEventListener("online", () => {
+  //   console.log("online: ", navigator.onLine);
+  //   onWifi(navigator.onLine);
+  // });
+
+  async function handleClick() {
+    const res = await submit(); // connects the wifi
+    if (res.data) {
+      console.log("ok! ->", res.message);
+    }
+    if (!res.data) {
+      console.log("error: ", res.message);
+      setMessage(res.message);
+    }
+  }
 
   function handleReload() {
     window.api.reload();
