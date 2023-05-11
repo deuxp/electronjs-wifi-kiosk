@@ -6,6 +6,12 @@ export default function useWifiConnect() {
   const [netSelect, setNetSelect] = useState("");
   const [message, setMessage] = useState("");
 
+  function clearForm() {
+    setPassword("");
+    setMessage("");
+    setMessage("");
+  }
+
   async function getData() {
     const res = await window.api.mainThread("get/networks");
     // console.log(res);
@@ -48,6 +54,7 @@ export default function useWifiConnect() {
   };
 
   const submit = async () => {
+    clearForm();
     // invoke login
     const res = await window.api.mainThread("connect/wifi", {
       ssid: netSelect,
