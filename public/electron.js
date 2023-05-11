@@ -2,8 +2,6 @@ const { getNetworks, connectWifi } = require("../src/services/wifi");
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
-// const axios = require("axios");
-// const fs = require("fs");
 
 if (require("electron-squirrel-startup")) {
   app.quit();
