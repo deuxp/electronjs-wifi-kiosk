@@ -8,8 +8,7 @@ function WifiConnect({ setIsLoading, isConnected, setIsConnected }) {
     netSelect,
     password,
     setPassword,
-    networks,
-    networkNames,
+    ssidList,
     message,
     setMessage,
   } = useWifiConnect(toggleLoading);
@@ -41,7 +40,7 @@ function WifiConnect({ setIsLoading, isConnected, setIsConnected }) {
         defaultValue={netSelect}
         onChange={handleChange}
       >
-        {networkNames(networks)}
+        {ssidList}
       </select>
       <input
         className={style.password}

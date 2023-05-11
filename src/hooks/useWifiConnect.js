@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 
 export default function useWifiConnect(toggleLoading) {
   const [password, setPassword] = useState("");
-  const [networks, setNetworks] = useState([]);
   const [netSelect, setNetSelect] = useState("");
   const [message, setMessage] = useState("");
+  const [ssidList, setSsidList] = useState([]);
 
   function clearForm() {
     setPassword("");
@@ -13,21 +13,26 @@ export default function useWifiConnect(toggleLoading) {
   }
 
   async function getData() {
-    const res = await window.api.mainThread("get/networks");
-    if (res.data) {
-      console.log("set the networks");
-      toggleLoading(false);
-      setNetworks(res.data);
-    }
-    if (!res.data) {
-      toggleLoading(false);
-      setMessage(res.message);
-    }
-    return res;
+    return new Promise(async (resolve, reject) => {
+      const res = await window.api.mainThread("get/networks");
+      if (res.data) {
+        console.log("set the networks");
+        toggleLoading(false);
+      }
+      if (!res.data) {
+        toggleLoading(false);
+        setMessage(res.message);
+        reject(res);
+      }
+      resolve(res.data);
+    });
   }
 
   useEffect(() => {
-    getData();
+    getData().then(networks => {
+      const newList = networkNames(networks);
+      setSsidList(newList);
+    });
   }, []);
 
   /**
@@ -71,8 +76,7 @@ export default function useWifiConnect(toggleLoading) {
     netSelect,
     password,
     setPassword,
-    networks,
-    networkNames,
+    ssidList,
     message,
     setMessage,
   };
