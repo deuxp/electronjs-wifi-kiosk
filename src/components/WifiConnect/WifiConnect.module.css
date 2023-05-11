@@ -8,28 +8,16 @@
   justify-content: center;
   align-items: center;
   height: 90%;
-  max-width: 400px;
-  /* background-color: white; */
+  max-width: 300px;
 }
 
 #reload {
-  transform: translateY(3px);
-}
-
-.input_container {
-  border: 3px green solid;
-  min-width: 350px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+  transform: translateY(4px);
 }
 
 .select {
   font-size: 1rem;
   margin-bottom: 1rem;
-  /* border: 1px solid black; */
   height: 24px;
   width: 100%;
 }
@@ -43,8 +31,6 @@
 
 .button_container {
   align-self: flex-start;
-  /* border: 2px red solid; */
-  /* padding: 1rem; */
 }
 
 .button {
@@ -68,8 +54,6 @@
   transform: translateY(3px);
 }
 
-
-
 .title {
   font-size: 2rem;
   color: #0ac326;
@@ -79,5 +63,5 @@
 .message {
   position: absolute;
   bottom: 2rem;
-  color: #ff0000;
+  color: #ff9500;
 }

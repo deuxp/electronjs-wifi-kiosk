@@ -1,6 +1,5 @@
 // import useWifiConnect from "../hooks/useWifiConnect";
 import useWifiConnect from "../../hooks/useWifiConnect";
-import { useState } from "react";
 import style from "./WifiConnect.module.css";
 
 function WifiConnect({ setIsLoading, isConnected, setIsConnected }) {
@@ -8,7 +7,6 @@ function WifiConnect({ setIsLoading, isConnected, setIsConnected }) {
     submit,
     handleChange,
     netSelect,
-    getData,
     password,
     setPassword,
     networks,
