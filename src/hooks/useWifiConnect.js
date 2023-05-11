@@ -14,7 +14,6 @@ export default function useWifiConnect(toggleLoading) {
 
   async function getData() {
     const res = await window.api.mainThread("get/networks");
-    // console.log(res);
     if (res.data) {
       console.log("set the networks");
       toggleLoading(false);
@@ -26,6 +25,7 @@ export default function useWifiConnect(toggleLoading) {
     }
     return res;
   }
+
   useEffect(() => {
     getData();
   }, []);
@@ -58,7 +58,6 @@ export default function useWifiConnect(toggleLoading) {
   const submit = async () => {
     clearForm();
     toggleLoading(true);
-    // invoke login
     const res = await window.api.mainThread("connect/wifi", {
       ssid: netSelect,
       password,
@@ -73,7 +72,6 @@ export default function useWifiConnect(toggleLoading) {
     password,
     setPassword,
     networks,
-    getData,
     networkNames,
     message,
     setMessage,

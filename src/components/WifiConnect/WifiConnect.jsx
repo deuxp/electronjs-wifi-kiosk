@@ -1,4 +1,3 @@
-// import useWifiConnect from "../hooks/useWifiConnect";
 import useWifiConnect from "../../hooks/useWifiConnect";
 import style from "./WifiConnect.module.css";
 
