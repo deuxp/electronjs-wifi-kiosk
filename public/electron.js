@@ -1,5 +1,5 @@
 const { getNetworks, connectWifi } = require("../src/services/wifi");
-const { app, BrowserWindow, ipcMain, net } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 // const axios = require("axios");
