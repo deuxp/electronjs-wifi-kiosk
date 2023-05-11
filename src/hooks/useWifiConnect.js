@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function useWifiConnect() {
+export default function useWifiConnect(toggleLoading) {
   const [password, setPassword] = useState("");
   const [networks, setNetworks] = useState([]);
   const [netSelect, setNetSelect] = useState("");
@@ -17,9 +17,11 @@ export default function useWifiConnect() {
     // console.log(res);
     if (res.data) {
       console.log("set the networks");
+      toggleLoading(false);
       setNetworks(res.data);
     }
     if (!res.data) {
+      toggleLoading(false);
       setMessage(res.message);
     }
     return res;
@@ -55,6 +57,7 @@ export default function useWifiConnect() {
 
   const submit = async () => {
     clearForm();
+    toggleLoading(true);
     // invoke login
     const res = await window.api.mainThread("connect/wifi", {
       ssid: netSelect,

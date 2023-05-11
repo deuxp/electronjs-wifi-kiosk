@@ -13,7 +13,11 @@ function WifiConnect({ setIsLoading, isConnected, setIsConnected }) {
     networkNames,
     message,
     setMessage,
-  } = useWifiConnect();
+  } = useWifiConnect(toggleLoading);
+
+  function toggleLoading(toggle) {
+    setIsLoading(toggle);
+  }
 
   async function handleClick() {
     const res = await submit(); // connects the wifi: { data: bool, message: string}
